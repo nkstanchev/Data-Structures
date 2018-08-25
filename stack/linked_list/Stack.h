@@ -23,16 +23,14 @@ template <typename T>
 Stack<T>::Stack(const Stack<T>& other)
 {
     *list = other.list;
-    size = other.size;
 }
 template <typename T>
 Stack<T>& Stack<T>::operator =(const Stack<T>& other)
 {
     if(this != &other) 
     {
-        delete &list;
+        delete list;
         *list = other.list;
-        size = other.size;
     }
     return *this;
 }
