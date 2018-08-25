@@ -13,13 +13,15 @@ public:
 template <typename T>
 void Stack<T>::push(T elem)
 {
-    if(++size > MAX) throw new std::invalid_argument("Stack overflow");
+    if(size + 1 > MAX) throw new std::invalid_argument("Stack overflow");
     arr[size] = elem;
+    size++;
 }
 template <typename T>
 void Stack<T>::pop()
 {
-    if(--size < 0) throw new std::invalid_argument("Stack underflow");
+    if(size - 1 < 0) throw new std::invalid_argument("Stack underflow");
+    size--;
 }
 template <typename T>
 T Stack<T>::peek()
