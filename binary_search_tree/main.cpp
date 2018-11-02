@@ -10,6 +10,12 @@ int main() {
     bst.insert(5);
     bst.insert(6);
 
+    BST<int> bst2(bst);
+    bst2.insert(7);
+    bst2.insert(4);
+
+    bst = bst2;
+
     std::cout << bst.search(3) << std::endl;
     std::cout << bst.search(1) << std::endl;
     std::cout << bst.search(-1)  << std::endl;

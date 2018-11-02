@@ -20,16 +20,66 @@ struct Node {
 template <typename T>
 class BST {
     Node<T>* root = nullptr;
+    Node<T>* copy(Node<T>*);
+    void cleanup(Node<T>*&);
     void insertHelper(const T&, Node<T>*&);
     void removeHelper(const T&, Node<T>*&);
     bool searchHelper(const T&, Node<T>*&);
 
 public:
+    BST();
+    BST(const BST<T>&);
+    BST<T> operator =(const BST<T>&);
+    ~BST();
     bool search(const T&);
     void insert(const T&);
     void remove(const T&);
 
 };
+template <typename T>
+BST<T>::BST() {
+    root = nullptr;
+}
+
+template <typename T>
+Node<T>* BST<T>::copy(Node<T>* otherCurrent)
+{
+    if (otherCurrent == nullptr) return nullptr;
+    return new Node<T> (otherCurrent->data,
+                        copy (otherCurrent->left),
+                        copy (otherCurrent->right));
+}
+template <typename T>
+BST<T>::BST(const BST<T>& other) {
+    root = copy(other.root);
+}
+template <typename T>
+BST<T> BST<T>::operator=(const BST<T>& other) {
+    if(this != &other) {
+        this->cleanup(root);
+        root = this->copy(other.root);
+    }
+    return *this;
+}
+template <typename T>
+BST<T>::~BST() {
+    cleanup(root);
+}
+template <typename T>
+void BST<T>::cleanup(Node<T>*& node) {
+    if(node == nullptr) return;
+    if(node->left == nullptr && node->right == nullptr) {
+        delete node;
+        node = nullptr;
+    } else {
+        cleanup(node->left);
+        cleanup(node->right);
+        if(node->left == nullptr && node->right == nullptr) {
+            delete node;
+            node = nullptr;
+        }
+    }
+}
 
 template <typename T>
 bool BST<T>::searchHelper(const T& elem, Node<T>*& node) 
